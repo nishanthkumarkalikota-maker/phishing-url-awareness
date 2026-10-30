@@ -1,0 +1,21 @@
+ADD THESE FILES TO YOUR EXISTING GITHUB REPOSITORY
+- app.py
+- templates/index.html
+- static/style.css
+- Procfile
+- runtime.txt
+- replace phishing_checker.py with the included version
+- replace requirements.txt with the included version
+
+THEN DEPLOY ON RENDER
+1. Sign in at https://render.com/ using GitHub.
+2. Choose New + > Web Service.
+3. Connect your phishing-url-awareness GitHub repository.
+4. Set Runtime to Python 3.
+5. Build Command: pip install -r requirements.txt
+6. Start Command: gunicorn app:app
+7. Choose the Free instance if available, then click Deploy Web Service.
+8. Wait for deployment to finish. Open the onrender.com URL Render provides.
+
+Do not submit a live URL until the deployed page opens and a test URL returns a result.
+This app checks URL text only. It does not visit or verify websites.
