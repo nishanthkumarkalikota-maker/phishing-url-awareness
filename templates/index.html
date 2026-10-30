@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phishing URL Awareness Checker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="page">
+    <nav class="top"><span class="brand-mark">盾</span><span>CYBER AWARENESS</span><span class="top-note">URL SAFETY TOOL</span></nav>
+    <section class="hero">
+      <p class="eyebrow">STAY ALERT · THINK BEFORE YOU CLICK</p>
+      <h1>Phishing URL<br><span>Awareness Checker</span></h1>
+      <p class="intro">Inspect a URL for common warning signs using simple, transparent checks.</p>
+      <form method="post" class="checker">
+        <label for="url">Paste a URL to inspect</label>
+        <div class="input-row">
+          <input id="url" name="url" type="text" placeholder="https://example.com/login" value="{{ submitted_url }}" required>
+          <button type="submit">Check URL <span>→</span></button>
+        </div>
+        <p class="hint">Your URL is checked as text only. This tool does not open or visit websites.</p>
+      </form>
+      {% if error %}
+        <section class="result error"><h2>Unable to check</h2><p>{{ error }}</p></section>
+      {% elif warnings is not none %}
+        {% if warnings %}
+          <section class="result warning">
+            <div class="result-head"><span class="status-icon">!</span><div><p class="eyebrow">CHECK COMPLETE</p><h2>Warning signs found</h2></div></div>
+            <p class="result-url">{{ submitted_url }}</p>
+            <ul>{% for warning in warnings %}<li>{{ warning }}</li>{% endfor %}</ul>
+            <p class="advice">Be cautious. Verify the website address independently before sharing information.</p>
+          </section>
+        {% else %}
+          <section class="result safe">
+            <div class="result-head"><span class="status-icon">✓</span><div><p class="eyebrow">CHECK COMPLETE</p><h2>No listed warning signs found</h2></div></div>
+            <p class="result-url">{{ submitted_url }}</p>
+            <p>This result does not guarantee that the website is safe. Check the sender, domain, and context before clicking.</p>
+          </section>
+        {% endif %}
+      {% endif %}
+    </section>
+    <section class="info-grid">
+      <article><span class="number">01</span><h3>URL structure</h3><p>Looks for unusual characters and unusually long addresses.</p></article>
+      <article><span class="number">02</span><h3>Hostname clues</h3><p>Checks for IP-based hosts, many subdomains, and punycode markers.</p></article>
+      <article><span class="number">03</span><h3>Protocol check</h3><p>Flags plain HTTP. HTTPS by itself is not proof of legitimacy.</p></article>
+    </section>
+    <footer><strong>Important:</strong> This is an educational heuristic checker, not an antivirus or a definitive phishing detector. Never enter passwords or sensitive information into suspicious websites.<br><span>Built with Python & Flask</span></footer>
+  </main>
+</body>
+</html>
